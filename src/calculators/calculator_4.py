@@ -1,11 +1,9 @@
 from flask import request as FlaskRequest
 from typing import Dict, List
 from statistics import mean
+from src.errors.http_unprocessable_entity import HttpUnprocessableEntityException
 
 class Calculator_4:
-    def __init__(self):
-        pass
-
     def calculate(self, request: FlaskRequest) -> Dict: #type: ignore
         body = request.json
         user_data = self.__validate_body(body)
@@ -14,10 +12,9 @@ class Calculator_4:
 
         return server_response
 
-
     def __validate_body(self, body: Dict) -> List[float]:
         if "numbers" not in body:
-            raise Exception("Body incorreto")
+            raise HttpUnprocessableEntityException("Body incorreto")
         
         sent_data = body['numbers']
         return sent_data
